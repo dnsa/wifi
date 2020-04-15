@@ -39,7 +39,7 @@ grep -Rl CONFIG_PROCD_ZRAM_TMPFS=n openwrt-imagebuilder-19.07.2-ramips-mt76x8.Li
 grep -Rl '# CONFIG_PROCD_ZRAM_TMPFS is not set' openwrt-imagebuilder-19.07.2-ramips-mt76x8.Linux-x86_64|xargs sed -i 's/# CONFIG_PROCD_ZRAM_TMPFS is not set/CONFIG_PROCD_ZRAM_TMPFS=y/'
 mkdir -p openwrt-imagebuilder-19.07.2-ramips-mt76x8.Linux-x86_64/files/etc/config
 printf 'config dnsmasq\nconfig dhcp\noption interface lan'>openwrt-imagebuilder-19.07.2-ramips-mt76x8.Linux-x86_64/files/etc/config/dhcp
-echo config dropbear>openwrt-imagebuilder-19.07.2-ramips-mt76x8.Linux-x86_64/files/etc/config/dropbear
+printf 'config dropbear'>openwrt-imagebuilder-19.07.2-ramips-mt76x8.Linux-x86_64/files/etc/config/dropbear
 printf 'config zone\noption name lan\noption network lan\noption input accept\noption output accept\nconfig zone\noption name wan\noption network wan\noption output accept\noption masq 1\nconfig forwarding'>openwrt-imagebuilder-19.07.2-ramips-mt76x8.Linux-x86_64/files/etc/config/firewall
 printf 'config interface lan\noption proto static\noption netmask 255.255.255.0\noption ipaddr 192.168.0.1\nconfig interface wan\noption proto dhcp\noption peerdns 0\noption dns aaaaaa'>openwrt-imagebuilder-19.07.2-ramips-mt76x8.Linux-x86_64/files/etc/config/network
 printf "config wifi-device wifi\noption type mac80211\noption path platform/10300000.wmac\noption htmode HT40\nconfig wifi-iface\noption device wifi\noption network lan\noption mode ap\noption ssid Wi-Fi\noption encryption psk2\noption key bbbbbb\nconfig wifi-iface\noption device wifi\noption network wan\noption mode sta\noption ssid 'cccccc'\noption encryption psk2\noption key dddddd">openwrt-imagebuilder-19.07.2-ramips-mt76x8.Linux-x86_64/files/etc/config/wifi
