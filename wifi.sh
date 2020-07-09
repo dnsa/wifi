@@ -39,7 +39,7 @@ grep -Rl '# CONFIG_PACKAGE_zram-swap is not set' openwrt|xargs sed -i 's/# CONFI
 grep -Rl CONFIG_PROCD_ZRAM_TMPFS=n openwrt|xargs sed -i s/CONFIG_PROCD_ZRAM_TMPFS=n/CONFIG_PROCD_ZRAM_TMPFS=y/
 grep -Rl '# CONFIG_PROCD_ZRAM_TMPFS is not set' openwrt|xargs sed -i 's/# CONFIG_PROCD_ZRAM_TMPFS is not set/CONFIG_PROCD_ZRAM_TMPFS=y/'
 mkdir -p openwrt/files/etc/config
-printf 'config dnsmasq\nconfig dhcp\noption interface lan'>openwrt/files/etc/config/dhcp
+printf 'config dnsmasq\nconfig dhcp\noption interface lan\noption limit 3\noption start 3'>openwrt/files/etc/config/dhcp
 printf 'config dropbear'>openwrt/files/etc/config/dropbear
 printf 'config zone\noption name lan\noption network lan\noption input accept\noption output accept\nconfig zone\noption name wan\noption network wan\noption output accept\noption masq 1\nconfig forwarding'>openwrt/files/etc/config/firewall
 printf 'config interface lan\noption proto static\noption netmask 255.255.255.0\noption ipaddr 192.168.0.1\nconfig interface wan\noption proto dhcp\noption peerdns 0\noption dns aaaaaa'>openwrt/files/etc/config/network
