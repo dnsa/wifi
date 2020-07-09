@@ -41,7 +41,7 @@ grep -Rl '# CONFIG_PROCD_ZRAM_TMPFS is not set' openwrt|xargs sed -i 's/# CONFIG
 mkdir -p openwrt/files/etc/config
 printf 'config dnsmasq\nconfig dhcp\noption interface lan\noption limit 3\noption start 3'>openwrt/files/etc/config/dhcp
 printf 'config dropbear'>openwrt/files/etc/config/dropbear
-printf 'config zone\noption name lan\noption network lan\noption input accept\noption output accept\nconfig zone\noption name wan\noption network wan\noption output accept\noption masq 1\nconfig forwarding'>openwrt/files/etc/config/firewall
+printf 'config zone\noption name lan\noption network lan\noption input accept\noption output accept\nconfig zone\noption name wan\noption network wan\noption masq 1\noption output accept\nconfig forwarding'>openwrt/files/etc/config/firewall
 printf 'config interface lan\noption proto static\noption netmask 255.255.255.0\noption ipaddr 192.168.0.1\nconfig interface wan\noption proto dhcp\noption peerdns 0\noption dns aaaaaa'>openwrt/files/etc/config/network
 printf "config wifi-device wifi\noption type mac80211\noption path platform/10300000.wmac\noption htmode HT40\nconfig wifi-iface\noption device wifi\noption network lan\noption mode ap\noption ssid Wi-Fi\noption encryption psk2\noption key bbbbbb\nconfig wifi-iface\noption device wifi\noption network wan\noption mode sta\noption ssid 'cccccc'\noption encryption psk2\noption key dddddd">openwrt/files/etc/config/wifi
 printf 'config wifi-device wifi\noption type mac80211\noption path platform/10300000.wmac\noption htmode HT40\nconfig wifi-iface\noption device wifi\noption network lan\noption mode ap\noption ssid Wi-Fi'>openwrt/files/etc/config/wireless
