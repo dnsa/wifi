@@ -3,9 +3,9 @@ sudo apt -y full-upgrade
 sudo apt -y autoremove --purge
 sudo apt clean
 sudo apt -y install build-essential libncurses5-dev libncursesw5-dev zlib1g-dev gawk git gettext libssl-dev xsltproc wget unzip python
-wget -O openwrt.tar.xz https://downloads.openwrt.org/releases/19.07.3/targets/ramips/mt76x8/openwrt-imagebuilder-19.07.3-ramips-mt76x8.Linux-x86_64.tar.xz
+wget -O openwrt.tar.xz https://downloads.openwrt.org/releases/19.07.7/targets/ramips/mt76x8/openwrt-imagebuilder-19.07.7-ramips-mt76x8.Linux-x86_64.tar.xz
 tar -xf openwrt.tar.xz
-mv openwrt-imagebuilder-19.07.3-ramips-mt76x8.Linux-x86_64 openwrt
+mv openwrt-imagebuilder-19.07.7-ramips-mt76x8.Linux-x86_64 openwrt
 grep -Rl CONFIG_KERNEL_PRINTK=y openwrt|xargs sed -i s/CONFIG_KERNEL_PRINTK=y/CONFIG_KERNEL_PRINTK=n/
 grep -Rl '# CONFIG_KERNEL_PRINTK is not set' openwrt|xargs sed -i 's/# CONFIG_KERNEL_PRINTK is not set/CONFIG_KERNEL_PRINTK=n/'
 grep -Rl CONFIG_KERNEL_CRASHLOG=y openwrt|xargs sed -i s/CONFIG_KERNEL_CRASHLOG=y/CONFIG_KERNEL_CRASHLOG=n/
@@ -45,5 +45,5 @@ printf 'config zone\noption name lan\noption network lan\noption input accept\no
 printf "config interface lan\noption proto static\noption ipaddr 10.0.0.1\noption netmask 255.255.255.0\noption ifname eth0.1\noption type bridge\nconfig interface wan\noption proto dhcp\noption dns -\noption peerdns 0\nconfig switch switch0\nconfig switch_vlan\noption device switch0\noption vlan 1\noption ports '0 6t'">openwrt/files/etc/config/network
 printf "config wifi-device wifi\noption type mac80211\noption htmode HT40\noption path platform/10300000.wmac\nconfig wifi-iface\noption device wifi\noption network lan\noption mode ap\noption ssid Wi-Fi\n#option encryption psk2\n#option key ~\n#option macfilter allow\n#option maclist '!'\n#config wifi-iface\n#option device wifi\n#option network wan\n#option mode sta\n#option ssid '='\n#option encryption psk2\n#option key :">openwrt/files/etc/config/wireless
 make -C openwrt image PROFILE=miwifi-nano PACKAGES='-ppp -ppp-mod-pppoe -ip6tables -odhcp6c -kmod-ipv6 -kmod-ip6tables -odhcpd-ipv6only -odhcpd -iptables -opkg zram-swap' FILES=files
-cp openwrt/bin/targets/ramips/mt76x8/openwrt-19.07.3-ramips-mt76x8-miwifi-nano-squashfs-sysupgrade.bin openwrt.bin
-tail -1 openwrt/bin/targets/ramips/mt76x8/sha256sums|sed 's/openwrt-19.07.3-ramips-mt76x8-miwifi-nano-squashfs-sysupgrade.bin/\/tmp\/openwrt.bin/'|tee sha256sum
+cp openwrt/bin/targets/ramips/mt76x8/openwrt-19.07.7-ramips-mt76x8-miwifi-nano-squashfs-sysupgrade.bin openwrt.bin
+tail -1 openwrt/bin/targets/ramips/mt76x8/sha256sums|sed 's/openwrt-19.07.7-ramips-mt76x8-miwifi-nano-squashfs-sysupgrade.bin/\/tmp\/openwrt.bin/'|tee sha256sum
