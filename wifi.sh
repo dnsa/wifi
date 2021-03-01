@@ -39,11 +39,10 @@ grep -Rl '# CONFIG_PACKAGE_zram-swap is not set' openwrt|xargs sed -i 's/# CONFI
 grep -Rl CONFIG_PROCD_ZRAM_TMPFS=n openwrt|xargs sed -i s/CONFIG_PROCD_ZRAM_TMPFS=n/CONFIG_PROCD_ZRAM_TMPFS=y/
 grep -Rl '# CONFIG_PROCD_ZRAM_TMPFS is not set' openwrt|xargs sed -i 's/# CONFIG_PROCD_ZRAM_TMPFS is not set/CONFIG_PROCD_ZRAM_TMPFS=y/'
 mkdir -p openwrt/files/etc/config
-printf 'config dnsmasq\nconfig dhcp\noption interface lan\noption limit 3\noption start 3'>openwrt/files/etc/config/dhcp
 printf 'config dropbear'>openwrt/files/etc/config/dropbear
 printf 'config zone\noption name lan\noption network lan\noption input accept\noption output accept\nconfig zone\noption name wan\noption network wan\noption masq 1\noption output accept\nconfig forwarding'>openwrt/files/etc/config/firewall
-printf "config interface lan\noption proto static\noption ipaddr 10.0.0.1\noption netmask 255.255.255.0\noption ifname eth0.1\noption type bridge\nconfig interface wan\noption proto dhcp\noption dns -\noption peerdns 0\nconfig switch switch0\nconfig switch_vlan\noption device switch0\noption vlan 1\noption ports '0 6t'">openwrt/files/etc/config/network
+printf "config interface lan\noption proto static\noption ipaddr 10.0.0.1\noption netmask 255.255.255.0\noption ifname eth0.1\noption type bridge\nconfig interface wan\noption proto dhcp\noption dns -\noption peerdns 0\nconfig interface ext\noption proto relay\nlist network lan\nlist network wan\nconfig switch switch0\nconfig switch_vlan\noption device switch0\noption vlan 1\noption ports '0 6t'">openwrt/files/etc/config/network
 printf "config wifi-device wifi\noption type mac80211\noption htmode HT40\noption path platform/10300000.wmac\nconfig wifi-iface\noption device wifi\noption network lan\noption mode ap\noption ssid Wi-Fi\n#option encryption psk2\n#option key ~\n#option macfilter allow\n#option maclist '!'\n#config wifi-iface\n#option device wifi\n#option network wan\n#option mode sta\n#option ssid '='\n#option encryption psk2\n#option key :">openwrt/files/etc/config/wireless
-make -C openwrt image PROFILE=miwifi-nano PACKAGES='-ppp -ppp-mod-pppoe -ip6tables -odhcp6c -kmod-ipv6 -kmod-ip6tables -odhcpd-ipv6only -odhcpd -iptables -opkg zram-swap' FILES=files
+make -C openwrt image PROFILE=miwifi-nano PACKAGES='-ppp -ppp-mod-pppoe -ip6tables -odhcp6c -kmod-ipv6 -kmod-ip6tables -odhcpd-ipv6only -odhcpd -iptables -opkg zram-swap relayd' FILES=files
 cp openwrt/bin/targets/ramips/mt76x8/openwrt-19.07.7-ramips-mt76x8-miwifi-nano-squashfs-sysupgrade.bin openwrt.bin
 tail -1 openwrt/bin/targets/ramips/mt76x8/sha256sums|sed 's/openwrt-19.07.7-ramips-mt76x8-miwifi-nano-squashfs-sysupgrade.bin/\/tmp\/openwrt.bin/'|tee sha256sum
