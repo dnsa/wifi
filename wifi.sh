@@ -10,8 +10,6 @@ grep -Rl CONFIG_KERNEL_PRINTK=y openwrt|xargs sed -i s/CONFIG_KERNEL_PRINTK=y/CO
 grep -Rl '# CONFIG_KERNEL_PRINTK is not set' openwrt|xargs sed -i 's/# CONFIG_KERNEL_PRINTK is not set/CONFIG_KERNEL_PRINTK=n/'
 grep -Rl CONFIG_KERNEL_CRASHLOG=y openwrt|xargs sed -i s/CONFIG_KERNEL_CRASHLOG=y/CONFIG_KERNEL_CRASHLOG=n/
 grep -Rl '# CONFIG_KERNEL_CRASHLOG is not set' openwrt|xargs sed -i 's/# CONFIG_KERNEL_CRASHLOG is not set/CONFIG_KERNEL_CRASHLOG=n/'
-grep -Rl CONFIG_KERNEL_SWAP=y openwrt|xargs sed -i s/CONFIG_KERNEL_SWAP=y/CONFIG_KERNEL_SWAP=n/
-grep -Rl '# CONFIG_KERNEL_SWAP is not set' openwrt|xargs sed -i 's/# CONFIG_KERNEL_SWAP is not set/CONFIG_KERNEL_SWAP=n/'
 grep -Rl CONFIG_KERNEL_KALLSYMS=y openwrt|xargs sed -i s/CONFIG_KERNEL_KALLSYMS=y/CONFIG_KERNEL_KALLSYMS=n/
 grep -Rl '# CONFIG_KERNEL_KALLSYMS is not set' openwrt|xargs sed -i 's/# CONFIG_KERNEL_KALLSYMS is not set/CONFIG_KERNEL_KALLSYMS=n/'
 grep -Rl CONFIG_KERNEL_DEBUG_INFO=y openwrt|xargs sed -i s/CONFIG_KERNEL_DEBUG_INFO=y/CONFIG_KERNEL_DEBUG_INFO=n/
@@ -30,6 +28,8 @@ grep -Rl CONFIG_PACKAGE_MAC80211_MESH=y openwrt|xargs sed -i s/CONFIG_PACKAGE_MA
 grep -Rl '# CONFIG_PACKAGE_MAC80211_MESH is not set' openwrt|xargs sed -i 's/# CONFIG_PACKAGE_MAC80211_MESH is not set/CONFIG_PACKAGE_MAC80211_MESH=n/'
 grep -Rl CONFIG_STRIP_KERNEL_EXPORTS=n openwrt|xargs sed -i s/CONFIG_STRIP_KERNEL_EXPORTS=n/CONFIG_STRIP_KERNEL_EXPORTS=y/
 grep -Rl '# CONFIG_STRIP_KERNEL_EXPORTS is not set' openwrt|xargs sed -i 's/# CONFIG_STRIP_KERNEL_EXPORTS is not set/CONFIG_STRIP_KERNEL_EXPORTS=y/'
+grep -Rl CONFIG_USE_MKLIBS=n openwrt|xargs sed -i s/CONFIG_USE_MKLIBS=n/CONFIG_USE_MKLIBS=y/
+grep -Rl '# CONFIG_USE_MKLIBS is not set' openwrt|xargs sed -i 's/# CONFIG_USE_MKLIBS is not set/CONFIG_USE_MKLIBS=y/'
 grep -Rl CONFIG_SERIAL_8250=y openwrt|xargs sed -i s/CONFIG_SERIAL_8250=y/CONFIG_SERIAL_8250=n/
 grep -Rl '# CONFIG_SERIAL_8250 is not set' openwrt|xargs sed -i 's/# CONFIG_SERIAL_8250 is not set/CONFIG_SERIAL_8250=n/'
 grep -Rl CONFIG_EARLY_PRINTK=y openwrt|xargs sed -i s/CONFIG_EARLY_PRINTK=y/CONFIG_EARLY_PRINTK=n/
@@ -38,11 +38,13 @@ grep -Rl CONFIG_PACKAGE_zram-swap=n openwrt|xargs sed -i s/CONFIG_PACKAGE_zram-s
 grep -Rl '# CONFIG_PACKAGE_zram-swap is not set' openwrt|xargs sed -i 's/# CONFIG_PACKAGE_zram-swap is not set/CONFIG_PACKAGE_zram-swap=y/'
 grep -Rl CONFIG_PROCD_ZRAM_TMPFS=n openwrt|xargs sed -i s/CONFIG_PROCD_ZRAM_TMPFS=n/CONFIG_PROCD_ZRAM_TMPFS=y/
 grep -Rl '# CONFIG_PROCD_ZRAM_TMPFS is not set' openwrt|xargs sed -i 's/# CONFIG_PROCD_ZRAM_TMPFS is not set/CONFIG_PROCD_ZRAM_TMPFS=y/'
+grep -Rl CONFIG_KERNEL_SWAP=n openwrt|xargs sed -i s/CONFIG_KERNEL_SWAP=n/CONFIG_KERNEL_SWAP=y/
+grep -Rl '# CONFIG_KERNEL_SWAP is not set' openwrt|xargs sed -i 's/# CONFIG_KERNEL_SWAP is not set/CONFIG_KERNEL_SWAP=y/'
 mkdir -p openwrt/files/etc/config
 printf 'config dropbear'>openwrt/files/etc/config/dropbear
-printf 'config zone\noption name lan\noption network lan\noption input accept\noption output accept\nconfig zone\noption name wan\noption network wan\noption masq 1\noption output accept\nconfig forwarding'>openwrt/files/etc/config/firewall
-printf "config interface lan\noption proto static\noption ipaddr 10.0.0.1\noption netmask 255.255.255.0\noption ifname eth0.1\noption type bridge\nconfig interface wan\noption proto dhcp\noption dns -\noption peerdns 0\nconfig interface ext\noption proto relay\nlist network lan\nlist network wan\nconfig switch switch0\nconfig switch_vlan\noption device switch0\noption vlan 1\noption ports '0 6t'">openwrt/files/etc/config/network
-printf "config wifi-device wifi\noption type mac80211\noption htmode HT40\noption path platform/10300000.wmac\nconfig wifi-iface\noption device wifi\noption network lan\noption mode ap\noption ssid Wi-Fi\n#option encryption psk2\n#option key ~\n#option macfilter allow\n#option maclist '!'\n#config wifi-iface\n#option device wifi\n#option network wan\n#option mode sta\n#option ssid '='\n#option encryption psk2\n#option key :">openwrt/files/etc/config/wireless
+printf "config interface lan\noption proto static\noption ipaddr 10.0.0.1\noption netmask 255.255.255.0\noption ifname eth0.1\noption type bridge\nconfig interface wan\noption proto dhcp\nconfig interface ext\noption proto relay\nlist network lan\nlist network wan\nconfig switch switch0\nconfig switch_vlan\noption device switch0\noption vlan 1\noption ports '0 6t'">openwrt/files/etc/config/network
+printf 'config system'>openwrt/files/etc/config/system
+printf "config wifi-device wifi\noption type mac80211\noption htmode HT40\noption path platform/10300000.wmac\nconfig wifi-iface\noption device wifi\noption network lan\noption mode ap\noption ssid Wi-Fi\n#option encryption psk2\n#option key ~\n#config wifi-iface\n#option device wifi\n#option network wan\n#option mode sta\n#option ssid '!'\n#option encryption psk2\n#option key =">openwrt/files/etc/config/wireless
 make -C openwrt image PROFILE=miwifi-nano PACKAGES='-ppp -ppp-mod-pppoe -ip6tables -odhcp6c -kmod-ipv6 -kmod-ip6tables -odhcpd-ipv6only -odhcpd -iptables -opkg zram-swap relayd' FILES=files
 cp openwrt/bin/targets/ramips/mt76x8/openwrt-19.07.7-ramips-mt76x8-miwifi-nano-squashfs-sysupgrade.bin openwrt.bin
-tail -1 openwrt/bin/targets/ramips/mt76x8/sha256sums|sed 's/openwrt-19.07.7-ramips-mt76x8-miwifi-nano-squashfs-sysupgrade.bin/\/tmp\/openwrt.bin/'|tee sha256sum
+sed 's/openwrt-19.07.7-ramips-mt76x8-miwifi-nano-squashfs-sysupgrade.bin/\/tmp\/openwrt.bin/' openwrt/bin/targets/ramips/mt76x8/sha256sums|tee sha256sum
