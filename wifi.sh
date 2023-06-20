@@ -3,9 +3,9 @@ sudo apt -y full-upgrade
 sudo apt -y autoremove --purge
 sudo apt clean
 sudo apt -y install build-essential libncurses5-dev libncursesw5-dev zlib1g-dev gawk git gettext libssl-dev xsltproc wget unzip python
-wget -O openwrt.tar.xz https://downloads.openwrt.org/releases/19.07.8/targets/ramips/mt76x8/openwrt-imagebuilder-19.07.8-ramips-mt76x8.Linux-x86_64.tar.xz
+wget -O openwrt.tar.xz https://downloads.openwrt.org/releases/22.03.5/targets/ramips/mt76x8/openwrt-imagebuilder-22.03.5-ramips-mt76x8.Linux-x86_64.tar.xz
 tar -xf openwrt.tar.xz
-mv openwrt-imagebuilder-19.07.8-ramips-mt76x8.Linux-x86_64 openwrt
+mv openwrt-imagebuilder-22.03.5-ramips-mt76x8.Linux-x86_64 openwrt
 grep -Rl CONFIG_KERNEL_PRINTK=y openwrt|xargs sed -i s/CONFIG_KERNEL_PRINTK=y/CONFIG_KERNEL_PRINTK=n/
 grep -Rl '# CONFIG_KERNEL_PRINTK is not set' openwrt|xargs sed -i 's/# CONFIG_KERNEL_PRINTK is not set/CONFIG_KERNEL_PRINTK=n/'
 grep -Rl CONFIG_KERNEL_CRASHLOG=y openwrt|xargs sed -i s/CONFIG_KERNEL_CRASHLOG=y/CONFIG_KERNEL_CRASHLOG=n/
