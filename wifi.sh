@@ -28,6 +28,8 @@ grep -Rl CONFIG_PACKAGE_MAC80211_MESH=y openwrt|xargs sed -i s/CONFIG_PACKAGE_MA
 grep -Rl '# CONFIG_PACKAGE_MAC80211_MESH is not set' openwrt|xargs sed -i 's/# CONFIG_PACKAGE_MAC80211_MESH is not set/CONFIG_PACKAGE_MAC80211_MESH=n/'
 grep -Rl CONFIG_STRIP_KERNEL_EXPORTS=n openwrt|xargs sed -i s/CONFIG_STRIP_KERNEL_EXPORTS=n/CONFIG_STRIP_KERNEL_EXPORTS=y/
 grep -Rl '# CONFIG_STRIP_KERNEL_EXPORTS is not set' openwrt|xargs sed -i 's/# CONFIG_STRIP_KERNEL_EXPORTS is not set/CONFIG_STRIP_KERNEL_EXPORTS=y/'
+grep -Rl CONFIG_USE_MKLIBS=n openwrt|xargs sed -i s/CONFIG_USE_MKLIBS=n/CONFIG_USE_MKLIBS=y/
+grep -Rl '# CONFIG_USE_MKLIBS is not set' openwrt|xargs sed -i 's/# CONFIG_USE_MKLIBS is not set/CONFIG_USE_MKLIBS=y/'
 grep -Rl CONFIG_SERIAL_8250=y openwrt|xargs sed -i s/CONFIG_SERIAL_8250=y/CONFIG_SERIAL_8250=n/
 grep -Rl '# CONFIG_SERIAL_8250 is not set' openwrt|xargs sed -i 's/# CONFIG_SERIAL_8250 is not set/CONFIG_SERIAL_8250=n/'
 grep -Rl CONFIG_EARLY_PRINTK=y openwrt|xargs sed -i s/CONFIG_EARLY_PRINTK=y/CONFIG_EARLY_PRINTK=n/
