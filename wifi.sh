@@ -45,5 +45,5 @@ printf 'config system'>openwrt/files/etc/config/system
 printf "config wifi-device wifi\noption type mac80211\noption htmode HT40\noption path platform/10300000.wmac\nconfig wifi-iface\noption device wifi\noption network lan\noption mode ap\noption ssid Wi-Fi\n#option encryption psk2\n#option key ~\n#config wifi-iface\n#option device wifi\n#option network wan\n#option mode sta\n#option ssid '!'\n#option encryption psk2\n#option key =">openwrt/files/etc/config/wireless
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/snap/bin
 make -C openwrt image PROFILE=xiaomi_miwifi-nano PACKAGES='-ppp -ppp-mod-pppoe -ip6tables -odhcp6c -kmod-ipv6 -kmod-ip6tables -odhcpd-ipv6only -odhcpd -iptables -opkg zram-swap relayd' FILES=files
-cp openwrt/bin/targets/ramips/mt76x8/openwrt-22.03.5-ramips-mt76x8-xiaomi_miwifi-nano-squashfs-sysupgrade.bin /mnt/d
-sed 's/openwrt-19.07.8-ramips-mt76x8-miwifi-nano-squashfs-sysupgrade.bin/\/tmp\/openwrt.bin/' openwrt/bin/targets/ramips/mt76x8/sha256sums|tee sha256sum
+cp openwrt/bin/targets/ramips/mt76x8/openwrt-22.03.5-ramips-mt76x8-xiaomi_miwifi-nano-squashfs-sysupgrade.bin /mnt/d/openwrt.bin
+sed 's/openwrt-22.03.5-ramips-mt76x8-xiaomi_miwifi-nano-squashfs-sysupgrade.bin/\/tmp\/openwrt.bin/' openwrt/bin/targets/ramips/mt76x8/sha256sums|tee sha256sum
